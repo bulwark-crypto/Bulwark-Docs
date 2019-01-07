@@ -1,18 +1,61 @@
-# Governance
+# How to vote and submit proposals
 
-We will utilize a multi-phase process for creating and submitting proposals. Each step will need to be fully completed. Failure to complete the steps outlined will likely result in a proposal not being activated. A basic outline of these steps are as follows:
+## Submitting a proposal through the GUI
 
-* Start in our Discord chat, and talk with some of the seasoned users. Gauge interest and if the response is positive, move to the next phase.
+1. You’ll want to do some preparation before submitting your proposal to ensure you can clearly and concisely explain what you’re planning on doing with the coins, and as with all other things, ensure that you're using the latest version of the [Official Bulwark Wallet](https://github.com/bulwark-crypto/Bulwark/releases)
+You'll want to start a thread on the [Official Bulwark Community Forum](https://community.bulwarkcrypto.com/c/proposals) to link in the `URL` section. Follow the instructions there to build out the plan for your proposal.
 
-* Utilize multiple social media platforms to discuss and get feedback. Remember that Bulwark has a diverse userbase and differing levels of governance participation, reaching a portion of the userbase will often require some footwork. Take note of these discussions and be able to cite them in the formal pre-proposal. The more citations provided, the better.
+To begin the submission process, you'll need to gather the following information in order to submit the proposal.  
+   * **Proposal-name** : This is going to be the name of your proposal. It has a 20 character limit, so make it count!  
+   * **URL** : This field allows you to submit a URL to an expanded explanation of your proposal. We have a section on our Community Forum specifically for discussion of proposals. Linking to a post in this section is the easiest way to spread the details about your proposal. The more detail you can go in to about how the funds will be handled and where they will be stored, the more likely you will be to convince people that they should vote for you!  
+   * **payment-count** : This field denotes the number of payments you are requesting. You can request a one-time payment, or several smaller, recurring payments if your project will require ongoing funding.  
+   * **Block-start** : This field denotes the Super-Block that you’d like your proposal to start paying on if it is accepted. This information can be found by typing `getnextsuperblock` in your Debug Console  
+   * **Bulwark-address** : This is the field in which you put the Bulwark address that you’d like to receive the superblock payout with.  
+   * **Monthly-payment** : The amount of coins you’d like to receive every month.  
 
-* Be open to suggestions from the community and developers. Be flexible and willing to incorporate external ideas and suggestions in your proposal.
+After gathering the information listed above, you'll want to navigate to the `Proposals` tab.  
+Click the `Create` button. Please make sure that you have at least 5 BWK in your wallet to pay the proposal creation fee.
+After you have filled out the fields with the appropriate information, click `Submit Proposal`
+Your proposal is now submitted! Now, get out there and gather support for it!
 
-* Create a formal pre-proposal on the Governance->Pre-Proposal section of our website. Provide citations for all discussions that occurred from the previous step. Treat your pre-proposal as if it is what will be submitted to the blockchain for voting.
+## Submitting a proposal through the debug terminal
+2. Once you have gathered the information requested, you can build the string you will enter to prepare your proposal.
+```
+preparebudget <Proposal-name><URL><payment-count><Block-start><Bulwark-address><Monthly-payment>
+```
 
-* Upon completion of these steps, you will submit your proposal to the blockchain. Be prepared for two fees, one at the time of submission and a ballot fee paid to the developer that activates your proposal on the blockchain. The submission fee is non-refundable, and the balloting fee will only be paid upon approval and activation of your proposal.
+Run the command after you piece it together, and your debug console will give you a hash output that corresponds to your newly prepared proposal, aptly called the "Preparation Hash"  
 
-* Everyone is free to adjust their proposal to include the reimbursement cost of these two fees. Please make sure in your formal proposal you state that you are adding reimbursement to the stipend requested.
+3. The next step, if no errors are returned after step 2, is to submit the proposal for voting.
+```
+submitbudget <Proposal-name><URL><payment-count><Block-start><Bulwark-address><Monthly-payment><preparation hash>
+```
 
-* Be sure to get back in touch with everyone you spoke with so your idea will be voted on. For a proposal to be paid out, 10% of the eligible masternodes must
-vote ‘yes’ on your proposal. This process of getting a 10% consensus can be much harder than it sounds, so be diligent, informative, and respectful in procuring the votes necessary for your proposal to be paid.
+4. Record the hash given to you after running `submitbudget` and store it somewhere safe, this will be needed for others to vote on your proposal. This string is known as the "Vote Hash"
+
+5. After waiting 6 confirmations for the proposal submission fee to confirm, piece together the string needed to vote on your proposal.
+```
+mnbudgetvote many <vote hash> yes
+```
+The above command will use all of the masternodes defined in your masternode.conf to vote `yea`
+```
+mnbudgetvote many <vote hash> no”
+```
+This command will use all of the masternodes defined in your masternode.conf to vote `nay`
+
+6. You can use `"mnbudget getinfo <Proposal-Name>” to check the status of your proposal at any time
+
+Congratulations! Your proposal is now ready to be spread to the community! Happy voting!
+
+## Voting on a proposal through the GUI
+Voting through the new GUI is quite simple, simply click on the proposal you would like to vote on and then click one of the three buttons at the bottom of the interface, `Vote Yes` `Vote No` or `Vote Abstain`
+If you would like to learn more about a specific proposal, you can right click on it to copy the URL that the creator supplied which will ideally be a link to a more detailed source of information on the proposal. If it is not a relevant link, then you may want to be wary of voting yes on it.
+As with all things in crypto; verify, don't trust
+
+## Voting on a proposal through the debug console
+1. Open the debug console of your local wallet
+2. Find the vote hash for the proposal you'd like to vote on. The [Official Bulwark Community Forum](https://community.bulwarkcrypto.com/c/proposals) will likely be the comprehensive place to find proposals and discussion about them
+3. Use the following commands to vote for the proposal;
+    * `mnbudgetvote many <vote hash> yes` will use all the eligible masternodes defined in your masternode.conf to vote `yea` for the specified proposal
+    * `mnbudgetvote many <vote hash> no` will use all the eligible masternodes defined in your masternode.conf to vote `nay` for the specified proposal
+
