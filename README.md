@@ -46,7 +46,7 @@ Drag Bulwark-Qt to your applications folder, and then run Bulwark-Qt.
 
 * Ask for help on [Discord](https://discord.me/bulwarkcrypto) or on the [Bulwark Telegram](https://t.me/bulwarkcrypto).
 * Join our [Reddit Community](https://www.reddit.com/r/BulwarkCoin/)
-* Tweet at [Bulwark-Crypto](https://twitter.com/BulwarkCoin)
+* Tweet at [Bulwark-Crypto](https://twitter.com/BulwarkCrypto)
 
 ### Ran into a Bug?
 
